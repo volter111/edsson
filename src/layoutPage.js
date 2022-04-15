@@ -12,11 +12,19 @@ const LayoutPage = () => {
       <table className="table">
         <tbody>
           {layoutData.header.rows.map((row, index) => (
-            <tr key={index} className="tableRow">
-              {row.columns.map((column) => { 
-                
-              })
-              }
+            <tr key={index}>
+              {row.columns.map((column, index) => {
+                if (column.type === "field") {
+                  definitionData.schema.fields.map((fieldData) => {
+                    <td>
+                      if (fieldData._id === column.fieldId)
+                      {console.log(fieldData._id === column.fieldId)}
+                    </td>;
+                  });
+                } else if (column.type === "button") {
+                  return <button>BUTTON</button>;
+                }
+              })}
             </tr>
           ))}
         </tbody>
