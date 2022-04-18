@@ -1,0 +1,45 @@
+* {
+  font-family: "Inter", system-ui;
+}
+
+.table {
+  width: 40%;
+  margin-top: 50px;
+  border: 1px dashed grey;
+
+  margin: 0;
+  font-family: "Inter", system-ui;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #e7f6ff;
+}
+
+.homePage {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.tableRow {
+  justify-content: center;
+  display: flex;
+  margin: 20px;
+}
+
+.tableColumn {
+  margin-right: 20px;
+  margin-left: 20px;
+  /* border: 1px solid grey; */
+  /* margin-left: 20px; */
+  p {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+}
+
+.button {
+  width: 150px;
+  height: 30px;
+  cursor: pointer;
+}

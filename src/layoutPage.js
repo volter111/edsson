@@ -6,6 +6,34 @@ const LayoutPage = () => {
   const [definitionData, setDefinitionData] = useState(null);
   const [isLoading, setIsloading] = useState(false);
 
+  const [formState, setFormState] = useState({
+    name: undefined,
+    age: undefined,
+  });
+
+
+  // const name = (event) => {
+  //   console.log(event.current.value);
+  // };
+
+  // const age = (event) => {
+  //   console.log(event.current.value);
+  // };
+
+
+  const onChange = (name) => {
+    if (name === 'name') {
+      setFormState(name: name)
+    } else if (name === "age") {
+      setdata2('age')
+    }
+  };
+
+  const getInf = () => {
+    console.log(formState)
+  }
+
+
   useEffect(() => {
     setIsloading(true);
     getData().then((data) => {
@@ -15,35 +43,23 @@ const LayoutPage = () => {
     });
   }, []);
 
-  // console.log(layoutData);
-  // console.log(definitionData);
-
   const newLayout = useMemo(() => {
     if (layoutData && definitionData) {
       const layout = {
         rows: layoutData.header.rows.map((row) => {
           return row.columns.map((column) => {
-            
-            const { fieldId, ...layoutData } = column;
-
-            const props = definitionData.schema.fields.filter((field) => {
-              const {_id, ...props } = field
-              if (_id === fieldId) {
-                return {...props}
-              }
-            })
-
-            // console.log(props)
-
             switch (column.type) {
+              case "field":
+                const { _id, ...props } = definitionData.schema.fields.find(
+                  (field) => field._id === column.fieldId
+                );
+                const fieldData = { ...column, props };
+
+                return fieldData;
               case "button":
                 return column;
-
-              case "field":
-                return {...layoutData, props};
-
               default:
-                console.log("Wrong data");
+                return column;
             }
           });
         }),
@@ -57,30 +73,38 @@ const LayoutPage = () => {
 
   if (isLoading) {
     return <p> Loading... </p>;
-  } else {
+  } else if (newLayout) {
     return (
       <table className="table">
-        {/* <tbody>
-          {layoutData.header.rows.map((row, index) => (
-            <tr key={index}>
-              {row.columns.map((column, index) => {
+        <tbody>
+          {newLayout.rows.map((row, index) => (
+            <tr key={index} className="tableRow">
+              {row.map((column, index) => {
                 if (column.type === "field") {
                   return (
-                    <td>
-                      {definitionData.schema.fields.map((field) => {
-                        if (field._id === column.fieldId) {
-                          return <input type="text" />;
-                        }
-                      })}
+                    <td className="tableColumn" key={column.fieldId}>
+                      <p>{column.props.label}</p>
+                      <input
+                        type={column.props.type}
+                        onChange={()=> onChange(column.props.name)} // "name" or "age" --- column.props.name
+                        placeholder={column.props.name}
+                        maxLength={column.props.maxLength}
+                      />
                     </td>
                   );
                 } else if (column.type === "button") {
-                  return <button>BUTTON</button>;
+                  return (
+                    <td key={index}>
+                      <button onClick={getInf} className="button" type={column.type}>
+                        {column.label}
+                      </button>
+                    </td>
+                  );
                 }
               })}
             </tr>
           ))}
-        </tbody> */}
+        </tbody>
       </table>
     );
   }
@@ -88,32 +112,23 @@ const LayoutPage = () => {
 
 export default LayoutPage;
 
-// // const { fieldId } = column;
-// if (column.type === "field") {
-//    definitionData.schema.fields.map((field) => {
-//     const { _id, ...fieldProps } = field;
-//     if (field._id === column.fieldId) {
-//       return { ...column, fieldProps };
-//     }
-//   });
-// } else if (column.type === "button") {
-//   return column;
-// }
-
-// switch (column.type) {
-//             case "button":
-//               return column;
-
-//             case "field":
-//               definitionData.schema.fields.map((field) => {
-//                 const { _id, ...fieldProps } = field;
-//                 console.log(field)
-//                 if (field._id === column.fieldId) {
-//                   return { ...column, fieldProps };
-//                 }
-//               });
-//               break;
-
-//             default:
-//               console.log("Cant read data...");
-//           }
+// {newLayout.rows.map((row, index) => (
+//   <tr key={index}>
+//     {row.columns.map((column, index) => {
+//       if (column.type === "field") {
+//         return (
+//           <td>
+//             {definitionData.schema.fields.map((field) => {
+//               if (field._id === column.fieldId) {
+//                 return <input type="text" />;
+//               }
+//             })}
+//           </td>
+//         );
+//       } else if (column.type === "button") {
+//         return <button>BUTTON</button>;
+//       }
+//     })}
+//   </tr>
+// ))}
+// </tbody>
