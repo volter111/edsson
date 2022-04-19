@@ -5,12 +5,12 @@ const LayoutPage = () => {
   const [layoutData, setLayoutData] = useState(null);
   const [definitionData, setDefinitionData] = useState(null);
   const [isLoading, setIsloading] = useState(false);
-
   const [formState, setFormState] = useState({});
 
   const handleChange = (inputType) => (event) => {
     const data = {[inputType] : event.target.value};
-    setFormState(prev => ({...prev, ...data }));
+    // setFormState(prev => ({...prev, ...data }));
+    setFormState({...formState, ...data });
   };
 
   const getInf = () => {
