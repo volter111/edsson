@@ -2,10 +2,11 @@ import React from 'react';
 import Home from "./home";
 
 
+
 function App() {
 
   return (
-    <div className="App">
+    <div className="wrapper">
       <Home />
     </div>
   );

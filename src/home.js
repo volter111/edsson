@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
 import LayoutPage from "./layoutPage";
+import { Center } from "@mantine/core";
 
 const Home = () => {
   return (
-    <div className="homePage">
-      <LayoutPage />
-    </div>
+    <Center>
+        <LayoutPage />
+    </Center>
   );
 };
 
