@@ -6,33 +6,16 @@ const LayoutPage = () => {
   const [definitionData, setDefinitionData] = useState(null);
   const [isLoading, setIsloading] = useState(false);
 
-  const [formState, setFormState] = useState({
-    name: undefined,
-    age: undefined,
-  });
+  const [formState, setFormState] = useState({});
 
-
-  // const name = (event) => {
-  //   console.log(event.current.value);
-  // };
-
-  // const age = (event) => {
-  //   console.log(event.current.value);
-  // };
-
-
-  const onChange = (name) => {
-    if (name === 'name') {
-      setFormState(name: name)
-    } else if (name === "age") {
-      setdata2('age')
-    }
+  const handleChange = (inputType) => (event) => {
+    const data = {[inputType] : event.target.value};
+    setFormState(prev => ({...prev, ...data }));
   };
 
   const getInf = () => {
-    console.log(formState)
-  }
-
+    console.log(formState);
+  };
 
   useEffect(() => {
     setIsloading(true);
@@ -69,7 +52,7 @@ const LayoutPage = () => {
     }
   }, [layoutData, definitionData]);
 
-  console.log(newLayout);
+  // console.log(newLayout);
 
   if (isLoading) {
     return <p> Loading... </p>;
@@ -86,7 +69,7 @@ const LayoutPage = () => {
                       <p>{column.props.label}</p>
                       <input
                         type={column.props.type}
-                        onChange={()=> onChange(column.props.name)} // "name" or "age" --- column.props.name
+                        onChange={handleChange(column.props.name)} // "name" or "age" --- column.props.name
                         placeholder={column.props.name}
                         maxLength={column.props.maxLength}
                       />
@@ -95,7 +78,11 @@ const LayoutPage = () => {
                 } else if (column.type === "button") {
                   return (
                     <td key={index}>
-                      <button onClick={getInf} className="button" type={column.type}>
+                      <button
+                        onClick={getInf}
+                        className="button"
+                        type={column.type}
+                      >
                         {column.label}
                       </button>
                     </td>
@@ -111,24 +98,3 @@ const LayoutPage = () => {
 };
 
 export default LayoutPage;
-
-// {newLayout.rows.map((row, index) => (
-//   <tr key={index}>
-//     {row.columns.map((column, index) => {
-//       if (column.type === "field") {
-//         return (
-//           <td>
-//             {definitionData.schema.fields.map((field) => {
-//               if (field._id === column.fieldId) {
-//                 return <input type="text" />;
-//               }
-//             })}
-//           </td>
-//         );
-//       } else if (column.type === "button") {
-//         return <button>BUTTON</button>;
-//       }
-//     })}
-//   </tr>
-// ))}
-// </tbody>
